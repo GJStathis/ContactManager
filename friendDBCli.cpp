@@ -2,6 +2,7 @@
 #include <string>
 #include <algorithm>
 #include <fstream>
+#include <sstream>
 using namespace std;
 
 void switchThroughMenuCommand(int appVal);
@@ -37,32 +38,62 @@ int getInputInt(){
     return userInput;
 }
 
+string returnDefaultValue(string str){
+     if(str.size() > 0)
+     {
+	return str;
+     } else
+     {
+	string defStr = "None";
+	return defStr;
+     }
+}
+
 void addFriend(){
     ofstream ofs;
     Friend newFriend;
     
+    string temp;    
+ 
     cin.ignore(); 
     cout << "Enter first name of new friend: ";
-    getline(cin, newFriend.firstName);
+    getline(cin, temp);
+    newFriend.firstName = returnDefaultValue(temp);
     cout << "Enter last name of new friend: ";
-    getline(cin, newFriend.lastName);
+    getline(cin, temp); 
+    newFriend.lastName = returnDefaultValue(temp);
     cout << "Enter the birthday of your new friend: ";
-    getline(cin, newFriend.birthday);
+    getline(cin, temp); 
+    newFriend.birthday = returnDefaultValue(temp);
     cout << "Enter the phone number of your new friend: ";
-    getline(cin, newFriend.number);
+    getline(cin, temp); 
+    newFriend.number = returnDefaultValue(temp);
     
-    //int strLen = newFriend.firstName.size() + newFriend.lastName.size() + newFriend.birthday.size() + newFriend.number.size() + 20;
-    
-    //char* str = new char[strLen];   
-    //sprintf(str, "%s,%s,%s,%s\n0", newFriend.firstName, newFriend.lastName, newFriend.birthday, newFriend.number);
-    
-    //cout << str[1] << endl;
-
     ofs.open("./friendList.csv", ofstream::out | ofstream::app);
     ofs << newFriend.firstName << "," << newFriend.lastName << "," << newFriend.birthday << "," << newFriend.number << "\n"; 
     ofs.close();
-    //delete[] str; 
+
     applicationStartMenu();  
+}
+
+void listFriends(){
+    fstream fin;
+    fin.open("./friendList.csv", ios::in);
+    
+    string line, temp, word;
+    cout << "\nFirst name\tLast name\tBirthday\t\tPhone number\n";
+    while(getline(fin, line))
+    {
+	stringstream s(line);
+	while(getline(s, word, ','))
+	{
+	    cout << word << "\t\t";
+	} 
+	cout << "\n";
+    }
+    
+    fin.close();
+    applicationStartMenu();
 }
 
 void switchThroughMenuCommand(int appVal){
@@ -74,7 +105,7 @@ void switchThroughMenuCommand(int appVal){
 	     addFriend();
              break;
          case 2:
-             cout << "This is where the list method goes" << endl;
+	     listFriends();
              break;
          case 3:
 	     cout << "This is where the edit method goes" << endl;
@@ -92,6 +123,7 @@ void switchThroughMenuCommand(int appVal){
 void applicationStartMenu(){
     int userInput;
 
+    cout << "\nMain Menu \n";
     cout << "[1] Add a new friend contact \n";
     cout << "[2] List out friend contacts \n";
     cout << "[3] Edit friend contact \n";
