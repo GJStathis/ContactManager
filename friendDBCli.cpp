@@ -3,17 +3,12 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
+#include "fileReader.h"
+
 using namespace std;
 
 void switchThroughMenuCommand(int appVal);
 void applicationStartMenu();
-
-struct Friend {
-    string firstName;
-    string lastName;
-    string birthday;
-    string number; 
-};
 
 string removeSpaces(string str){
     str.erase(remove(str.begin(), str.end(), ' '), str.end());
@@ -139,6 +134,9 @@ void applicationStartMenu(){
 int main(){
     cout << "Welcome to the friend contacts manager" << endl;
     cout << "--------------------------------------------" << endl;
+    manager::FileManager file;
+    file.listFriends();
+
     applicationStartMenu();
     return 0;
 }

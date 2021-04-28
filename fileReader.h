@@ -1,21 +1,24 @@
 #ifndef FILE_MANAGER_H
 #define FILE_MANAGER_H
 
+#include <vector>
+
 struct Friend {
-    string firstName;
-    string lastName;
-    string birthday;
-    string number; 
+    std::string firstName;
+    std::string lastName;
+    std::string birthday;
+    std::string number; 
 };
+
 
 namespace manager
 {
     class FileManager {
+	std::vector<Friend> fileMemory;
         public:	
-            FileManager()
-        private:
-	    vector<Friend> fileMemory;
-    }
+            FileManager(void);
+	    void listFriends();
+    };
 }
 
 #endif
